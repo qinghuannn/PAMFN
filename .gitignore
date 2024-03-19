@@ -1,0 +1,6 @@
+*/__pycache__
+data/
+pretrained_models/
+*.pyc
+*.log
+debug.ipynb
