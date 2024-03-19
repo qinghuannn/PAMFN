@@ -1,7 +1,7 @@
 # [TIP 2024] Official Implementation of Progressive Adaptive Multimodal Fusion Network (PAMFN)
 
 
-<embed src="resources/framework.pdf" width="500" height="375" type='application/pdf'>
+![](./resources/framework.jpg)
 
 
 
