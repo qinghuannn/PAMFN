@@ -8,8 +8,8 @@
 
 
 # Installation
-
-## Build the python eviornment
+## Build the python environment
+Codes are tested on RTX 3090 and I not sure you can get the same results on different GPUs or different python environment.
 ```
 1. conda create -n PAMFN python=3.8 -y
 2. conda activate PAMFN
