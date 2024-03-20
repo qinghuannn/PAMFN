@@ -26,7 +26,7 @@ The extracted features and pretrained models can be downloaded from [here](https
 ```
 
 # Evaluation
-Using the follow command to evaluate the pretrained model:
+Using the following command to evaluate the pretrained model:
 ```python
 python main.py --gpu {gpu_id} --feats {feature_type} --action {action_type} --multi_modality --test
 ```
@@ -36,7 +36,7 @@ python main.py --gpu {gpu_id} --feats {feature_type} --action {action_type} --mu
 
 # Training 
 ## Training the modality-specific branch
-Using the follow command to train a modality-specific branch:
+Using the following command to train a modality-specific branch:
 ```
 python main.py --gpu {gpu_id} --feats {feature_type} --action {action_type} --modality {modality_type}
 ```
@@ -50,7 +50,7 @@ An Example:
 python main.py --gpu 0 --feats 2 --action Ball --modality V
 ```
 ## Training the mixed-modality branch
-Using the follow command to train the mixed-modality branch:
+Using the following command to train the mixed-modality branch:
 ```
 python main.py --gpu {gpu_id} --feats {feature_type} --action {action_type} --multi_modality
 ```
