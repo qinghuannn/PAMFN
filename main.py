@@ -6,7 +6,7 @@ from functools import partial
 import importlib.util
 
 
-from pipeline import go, log_info
+from pipeline import go, log_info, test_model
 
 
 def load_module_from_file(file_path, module_name):
@@ -26,9 +26,12 @@ def parser_args():
     parser.add_argument('--modality', type=str, default='V')
     
     parser.add_argument('--feat_dir', type=str, default='./data/features')
-    parser.add_argument('--check_path', type=str, default='./pretrained_models/')
+    parser.add_argument('--ckpt_path', type=str, default='')
     
     parser.add_argument('--save_base_model', type=str, default="")
+    parser.add_argument('--save_final_model', type=str, default="")
+    
+    parser.add_argument('--test', action='store_true', default=False)
     
     parser.add_argument('--print_flops', action='store_true', default=False)
 
@@ -94,7 +97,7 @@ if __name__ == '__main__':
                 "K": cur_conf["K"],
                 "ms_heads": cur_conf["ms_heads"],
                 "cm_heads": cur_conf["cm_heads"],
-                "sg_ckpt_dir": cur_conf["sg_ckpt_dir"], 
+                "ckpt_dir": cur_conf["ckpt_dir"], 
                 "rgb_ckpt_name": cur_conf["rgb_ckpt_name"], 
                 "flow_ckpt_name": cur_conf["flow_ckpt_name"],
                 "audio_ckpt_name": cur_conf["audio_ckpt_name"],
@@ -126,8 +129,17 @@ if __name__ == '__main__':
         exit()
 
     log_func = partial(log_info, logger=None, print_log=True)
-
-    ret = go(model_config, optimizer_config, lr_scheduler, dataset_config, cur_conf["epoch"][args.action],
-        save_base_model=args.save_base_model, save_moniter=cur_conf["save_moniter"],
-        log_func=log_func, seed=0, clip_grad=cur_conf["clip_grad"])
-    print("%.4f\t%.4f\t%.4f\t%.4f" % (ret[0], ret[1], ret[2], ret[3]))
+    
+    if args.test:
+        if args.ckpt_path == "":
+            ckpt_path = os.path.join(cur_conf["ckpt_dir"], args.action+"_multimodal.pth")
+        else:
+            ckpt_path = args.ckpt_path
+            
+        test_model(model_kwargs=model_config, dataset_kwargs=dataset_config,
+                   ckpt_path=ckpt_path, log_func=log_func, seed=0)
+    else:
+        ret = go(model_config, optimizer_config, lr_scheduler, dataset_config, cur_conf["epoch"][args.action],
+            save_base_model=args.save_base_model, save_moniter=cur_conf["save_moniter"], save_final_model=args.save_final_model,
+            log_func=log_func, seed=0, clip_grad=cur_conf["clip_grad"])
+        print("%.4f\t%.4f\t%.4f\t%.4f" % (ret[0], ret[1], ret[2], ret[3]))

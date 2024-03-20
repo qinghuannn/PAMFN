@@ -229,12 +229,12 @@ class PAMFN(nn.Module):
     def __init__(self,
                  model_dim, fc_drop, fc_r, feat_drop, K,
                  ms_heads, cm_heads,
-                 sg_ckpt_dir, rgb_ckpt_name, flow_ckpt_name, audio_ckpt_name,
+                 ckpt_dir, rgb_ckpt_name, flow_ckpt_name, audio_ckpt_name,
                  dataset_name):
         super().__init__()
-        self.model_r = torch.load(osp.join(sg_ckpt_dir, f"{dataset_name}_rgb_{rgb_ckpt_name}.pth"), map_location='cpu')
-        self.model_f = torch.load(osp.join(sg_ckpt_dir, f"{dataset_name}_flow_{flow_ckpt_name}.pth"), map_location='cpu')
-        self.model_a = torch.load(osp.join(sg_ckpt_dir, f"{dataset_name}_audio_{audio_ckpt_name}.pth"), map_location='cpu')
+        self.model_r = torch.load(osp.join(ckpt_dir, f"{dataset_name}_rgb_{rgb_ckpt_name}.pth"), map_location='cpu')
+        self.model_f = torch.load(osp.join(ckpt_dir, f"{dataset_name}_flow_{flow_ckpt_name}.pth"), map_location='cpu')
+        self.model_a = torch.load(osp.join(ckpt_dir, f"{dataset_name}_audio_{audio_ckpt_name}.pth"), map_location='cpu')
 
         self.c = nn.Parameter(torch.zeros([model_dim*3]), requires_grad=False)
         self.stage1 = FusionBlock(model_dim, K, ms_heads, cm_heads)

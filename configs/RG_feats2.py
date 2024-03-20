@@ -36,7 +36,7 @@ multi_modality = {
     "ms_heads": 4,
     "cm_heads": 2,
     
-    "sg_ckpt_dir": "./pretrained_models/feats2/",
+    "ckpt_dir": "./pretrained_models/feats2/",
     "rgb_ckpt_name": "UMT",
     "flow_ckpt_name": "I3D",
     "audio_ckpt_name": "MAST",

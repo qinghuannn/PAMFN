@@ -30,7 +30,6 @@ def build_dataset(dataset_name, feat_dir, rgb_feat, flow_feat, audio_feat,
  
 
 def build_model(model_name, model_conf=None):
-    print(model_conf)
     if model_name == "pamfn_base":
         from models.pamfn import BaseModel
         return BaseModel(**model_conf)
@@ -201,6 +200,20 @@ def go(model_kwargs, optimizer_kwargs, lr_scheduler_kwargs, dataset_kwargs, epoc
              f"coef of saved model: {rets[4]/100:.4f}")
     return rets
 
+
+def test_model(model_kwargs, dataset_kwargs, ckpt_path="", log_func=None, seed=0):
+    setup_seed(seed)
+    _, test_dataloader = build_dataset(**dataset_kwargs)
+
+    model = build_model(**model_kwargs)
+    model.load_state_dict(torch.load(ckpt_path, map_location="cpu"))
+    
+    model.cuda()
+
+    rets = test_epoch(model, test_dataloader)
+
+    log_func(f"Coef:{rets[2] / 100:.4f}\tLoss: {rets[1] / 100:.6f}")
+    
 
 def print_flops(model_kwargs):
     from thop import clever_format, profile

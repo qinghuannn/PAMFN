@@ -18,14 +18,23 @@ Codes are tested on RTX 3090 and I not sure you can get the same results on diff
 ```
 
 ## Download extracted features and pretrained models
-The extracted features and pretrained models can be downloaded from [here](https://1drv.ms/u/s!ApyE_Lf3PFl2itkHqy-6eWqg_H5tBA?e=kknQNB) and should be placed in the current directory.
+The extracted features and pretrained models can be downloaded from [here](https://1drv.ms/u/s!ApyE_Lf3PFl2itlpIvyjNzcQ0TlsPA?e=biQ4bw) and should be placed in the current directory.
 ```
 ./
 ├── data/
 └── pretrained_models
 ```
 
-# Train
+# Evaluation
+Using the follow command to evaluate the pretrained model:
+```python
+python main.py --gpu {gpu_id} --feats {feature_type} --action {action_type} --multi_modality --test
+```
+- {gpu_id}: The GPU device ID. 
+- {feature_type}: Set as 2 to use the features extracted by UNMT, I3D, and MAST. Set as 1 to use the features extracted by VST, I3D, and AST.
+- {action_type}: Ball, Clubs, Hoop, Ribbon, TES, PCS.
+
+# Training 
 ## Training the modality-specific branch
 Using the follow command to train a modality-specific branch:
 ```
@@ -45,10 +54,6 @@ Using the follow command to train the mixed-modality branch:
 ```
 python main.py --gpu {gpu_id} --feats {feature_type} --action {action_type} --multi_modality
 ```
-- {gpu_id}: The GPU device ID. 
-- {feature_type}: Set as 2 to use the features extracted by UNMT, I3D, and MAST. Set as 1 to use the features extracted by VST, I3D, and AST.
-- {action_type}: Ball, Clubs, Hoop, Ribbon, TES, PCS.
-
 An Example:
 ```
 python main.py --gpu 0 --feats 2 --action Ball --multi_modality
